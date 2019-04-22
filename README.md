@@ -1,3 +1,1 @@
-# django-clientes
-# Django-gest-o-de-clientes
-# gestao-clientes-django
+# Apenas um app teste feito Django
