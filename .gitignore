@@ -1,0 +1,8 @@
+*.idea
+*.idea/workspace.xml
+*.venv/
+*.git
+db.sqlite3
+*.pyc
+media/
+.env

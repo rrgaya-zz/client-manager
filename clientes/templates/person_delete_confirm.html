@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} Seja bem vindo {% endblock %}
+
+
+{% block main %}
+
+    <h3>Você realmente quer deletar <b>{{ person.first_name }} {{ person.last_name }}</b>?</h3>
+
+    <form method="POST", enctype="multipart/form-data">
+        {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Deletar</button>
+    </form>
+
+{% endblock %}
