@@ -1,9 +1,24 @@
 {% extends 'base.html' %}
 
+{% load filters %}
+
 {% block title %} Seja bem vindo {% endblock %}
 
 
 {% block main %}
+
+    <div class="row">
+        <div class="col-12">
+            <form class="form-inline">
+               <div class="form-group mx-sm-3 mb-2">
+                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome">
+                    <input type="text" class="form-control" id="sobrenome" name="sobrenome" placeholder="Digite o sobrenome">
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Pesquisar</button>
+            </form>
+        </div>
+
+    </div>
 
     <div class="row">
         <div class="col">
@@ -15,9 +30,12 @@
              <ul class="list-group">
                  {% for person in persons %}
                 <li class="list-group-item">
-                    <a href="{% url 'person_update' person.id %}">{{ person.first_name }} {{ person.last_name }}</a>
+                    <a href="{% url 'person_update' person.id %}">{{ person.nome_completo|title}}</a>
                     <a href="{% url 'person_delete' person.id %}" class="trash_icon"><i class="fas fa-trash"></i></a>
                 </li>
+<!--                 Caso a list esteja vazia-->
+                 {% empty %}
+                    <li>Desculpe, não tem clientes cadastrados.</li>
             {% endfor %}
             </ul>
             <br>
@@ -32,13 +50,15 @@
         </div>
     </div>
 
-
+<hr>
+<!--{% if persons|length > 2 %}-->
+<!--    Voce tem mais que 2 clientes-->
+<!--{% endif %}-->
+<!--{{ footer_menssage|meu_filtro }}-->
+<!--{{ 123.45678|arredonda:2 }}-->
 {% endblock %}
 
+
 {% block footer %}
-<footer class="footer">
-    <div class="container">
-        <span class="text-muted">Desenvolvido por Ricardo Gaya</span>
-    </div>
-</footer>
+    {% include 'footer.html' %}
 {% endblock %}

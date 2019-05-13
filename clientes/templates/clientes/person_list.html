@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<h1>Listagem de Pessoas</h1>
+<br>
+<hr>
+
+<br>
+{% for person in object_list %}
+
+<ul>
+    <li><a href="{% url 'person_detail_cbv' person.id %}">{{ person }}</a> - <a href="{% url 'person_update_cbv' person.id %}">Atualizar</a> -
+        <a href="{% url 'person_delete_cbv' person.id %}">Deletar</a></li>
+</ul>
+{% endfor %}
+<br>
+<hr>
+<a href="{% url 'person_create_cbv' %}">Novo</a>
+
+
+{% endblock %}

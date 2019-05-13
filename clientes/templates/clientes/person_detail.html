@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+<h1>Person Detail</h1>
+<hr>
+OBJETO - {{ object }}
+<p>NOME - {{ object.first_name }}</p>
+<p>SOBRENOME - {{ object.last_name}}</p>
+<p>SALARIO - {{ object.salary }}</p>
+<p>DOC - {{object.doc}}</p>
+<br>
+
+<h1>Vendas</h1>
+<hr>
+{% for venda in vendas %}
+    <p>Venda id: {{venda.id}}</p>
+    <h3>Lista de produtos:</h3>
+    <ul>
+        {% for produto in venda.produtos.all %}
+        <li>{{ produto.id }} - {{produto.descricao}}</li>
+        {% endfor %}
+    </ul>
+{% endfor %}
+
+<hr>
+<p>Date: {{now|date}}</p>
+
+
+{% endblock %}
