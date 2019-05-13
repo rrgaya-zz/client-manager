@@ -6,3 +6,5 @@ db.sqlite3
 *.pyc
 media/
 .env
+CONFIG_HEROKU.md
+heroku
