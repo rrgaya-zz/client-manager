@@ -15,7 +15,8 @@ class PersonAdmin(admin.ModelAdmin):
     # exclude = ('bio', )
     list_display = ('first_name', 'last_name', 'age', 'salary', 'bio', 'tem_foto', 'doc')
     list_filter = ('age', 'salary', )
-    search_fields = ['first_name', 'last_name', 'age',]
+    search_fields = ['id', 'first_name', 'last_name', 'age',]
+    autocomplete_fields = ["doc"]
 
     def tem_foto(self, obj):
         if obj.photo:
@@ -27,13 +28,16 @@ class PersonAdmin(admin.ModelAdmin):
 class VendaAdmin(admin.ModelAdmin):
     fields = ('numero', 'desconto', 'impostos', 'pessoa', 'produtos', 'valor', 'nfe_emitida')
     readonly_fields =  ('valor',)
-    raw_id_fields = ('pessoa',)
+    # raw_id_fields = ('pessoa',)
+    autocomplete_fields = ["pessoa", "produtos"]
     list_filter = ('pessoa__doc', 'desconto')
     list_display = ('numero', 'id', 'valor', 'get_total', 'nfe_emitida')
     search_fields = ['id', 'pessoa__first_name', 'pessoa__doc__num_doc']
     actions = [nfe_emitida, nfe_nao_emitida]
+    # TODO: Refatorar
     # filter_vertical = ('produtos',)
-    filter_horizontal = ('produtos',)
+    # filter_horizontal = ('produtos',)
+
 
     def total(self, obj):
         return obj.get_total()
@@ -44,10 +48,15 @@ class VendaAdmin(admin.ModelAdmin):
 
 class ProdutoAdmin(admin.ModelAdmin):
     list_display = ('id', 'descricao', 'preco')
+    search_fields = ['id', 'descricao']
 
+
+
+class DocumentoAdmin(admin.ModelAdmin):
+    search_fields = ["num_doc"]
 
 
 admin.site.register(Person, PersonAdmin)
-admin.site.register(Documento)
+admin.site.register(Documento, DocumentoAdmin)
 admin.site.register(Venda, VendaAdmin)
 admin.site.register(Produto, ProdutoAdmin)
