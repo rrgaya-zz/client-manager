@@ -9,7 +9,7 @@ class ItemPedidoInLine(admin.TabularInline):
 
 
 # class ItemPedidoInLine(admin.StackedInline):
-#     model = ItemDoPedido
+#     model = ItemDoPedi    do
 #     extra = 1
 
 
