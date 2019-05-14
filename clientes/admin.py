@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Person, Documento, Venda, Produto
-from .actions import nfe_emitida, nfe_nao_emitida
+from .models import Person, Documento
 
 
 class PersonAdmin(admin.ModelAdmin):
@@ -25,38 +24,11 @@ class PersonAdmin(admin.ModelAdmin):
             return "Não"
 
 
-class VendaAdmin(admin.ModelAdmin):
-    fields = ('numero', 'desconto', 'impostos', 'pessoa', 'produtos', 'valor', 'nfe_emitida')
-    readonly_fields =  ('valor',)
-    # raw_id_fields = ('pessoa',)
-    autocomplete_fields = ["pessoa", "produtos"]
-    list_filter = ('pessoa__doc', 'desconto')
-    list_display = ('numero', 'id', 'valor', 'get_total', 'nfe_emitida')
-    search_fields = ['id', 'pessoa__first_name', 'pessoa__doc__num_doc']
-    actions = [nfe_emitida, nfe_nao_emitida]
-    # TODO: Refatorar
-    # filter_vertical = ('produtos',)
-    # filter_horizontal = ('produtos',)
-
-
-    def total(self, obj):
-        return obj.get_total()
-
-    total.short_description = 'Total'
-
-
-
-class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'descricao', 'preco')
-    search_fields = ['id', 'descricao']
-
-
 
 class DocumentoAdmin(admin.ModelAdmin):
     search_fields = ["num_doc"]
 
 
+
 admin.site.register(Person, PersonAdmin)
 admin.site.register(Documento, DocumentoAdmin)
-admin.site.register(Venda, VendaAdmin)
-admin.site.register(Produto, ProdutoAdmin)

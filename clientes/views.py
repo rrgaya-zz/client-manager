@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_list_or_404
-from .models import Person, Produto, Venda
+from .models import Person
+from produtos.models import Produto
+from vendas.models import Venda
 from .forms import PersonForm
 from django.contrib.auth.decorators import login_required
 # Import para CBV
