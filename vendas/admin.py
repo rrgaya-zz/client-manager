@@ -1,7 +1,16 @@
 from django.contrib import admin
-from .models import Venda, ItensDoPedido
+from .models import Venda, ItemDoPedido
 from .actions import nfe_emitida, nfe_nao_emitida
 
+
+class ItemPedidoInLine(admin.TabularInline):
+    model = ItemDoPedido
+    extra = 1
+
+
+# class ItemPedidoInLine(admin.StackedInline):
+#     model = ItemDoPedido
+#     extra = 1
 
 
 class VendaAdmin(admin.ModelAdmin):
@@ -13,6 +22,8 @@ class VendaAdmin(admin.ModelAdmin):
     list_display = ('numero', 'id', 'valor', 'nfe_emitida')
     search_fields = ['id', 'pessoa__first_name', 'pessoa__doc__num_doc']
     actions = [nfe_emitida, nfe_nao_emitida]
+    inlines = [ItemPedidoInLine]
+
     # TODO: Refatorar
     # filter_vertical = ('produtos',)
     # filter_horizontal = ('produtos',)
@@ -25,4 +36,4 @@ class VendaAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Venda, VendaAdmin)
-admin.site.register(ItensDoPedido)
+admin.site.register(ItemDoPedido)

@@ -25,7 +25,7 @@ class Venda(models.Model):
     #
     #     return (total - self.desconto) - self.impostos
 
-class ItensDoPedido(models.Model):
+class ItemDoPedido(models.Model):
     venda = models.ForeignKey(Venda, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.FloatField()  # Isso esta em float para por hora pois ainda nao tem fato de conversão
