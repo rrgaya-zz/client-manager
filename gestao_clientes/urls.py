@@ -8,6 +8,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from django.contrib.auth import views as auth_views
+from django.contrib.auth import urls as url_auth
+
 
 urlpatterns = [
     path('', include(home_urls), name='home'),
@@ -16,6 +18,7 @@ urlpatterns = [
     path('produtos/', include(produtos_urls), name='produtos_urls'),
     path('vendas/', include(vendas_urls), name='vendas_urls'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
+    path('conta/', include(url_auth)),
     # path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

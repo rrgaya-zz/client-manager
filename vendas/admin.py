@@ -14,6 +14,7 @@ class ItemPedidoInLine(admin.TabularInline):
 
 
 class VendaAdmin(admin.ModelAdmin):
+    
     fields = ('numero', 'desconto', 'impostos', 'pessoa', 'valor', 'nfe_emitida')
     readonly_fields =  ('valor',)
     # raw_id_fields = ('pessoa',)

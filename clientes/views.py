@@ -15,9 +15,12 @@ from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.views.generic import View
 
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
+
+
 @login_required()
 def person_list(request):
-
     # nome = request.GET.get('nome', None)
     # sobrenome = request.GET.get('sobrenome', None)
 
@@ -36,6 +39,11 @@ def person_list(request):
 
 @login_required()
 def person_new(request):
+    if not request.user.has_perm('clientes.add_person'):
+        return HttpResponse("Nao autorizado")
+    elif not request.user.is_superuser():
+        return HttpResponse("Não é superuser")
+
     form = PersonForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
@@ -70,11 +78,11 @@ def person_delete(request, id):
     return render(request, 'person_delete_confirm.html', {'person': person})
 
 
-class PersonList(ListView):
+class PersonList(LoginRequiredMixin, ListView):
     model = Person
 
 
-class PersonDetail(DetailView):
+class PersonDetail(LoginRequiredMixin, DetailView):
     model = Person
 
     """ Fazendo Override do metodo nativo do Django
@@ -98,23 +106,22 @@ class PersonDetail(DetailView):
         return context
 
 
-class PersonCreate(CreateView):
-
+class PersonCreate(LoginRequiredMixin, CreateView):
     model = Person
     fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo', 'doc']
     # success_url = '/clientes/person_list/'
     success_url = reverse_lazy('person_list_cbv')
 
 
-class PersonUpdate(UpdateView):
-
+class PersonUpdate(LoginRequiredMixin, UpdateView):
     model = Person
     fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo', 'doc']
     # success_url = '/clientes/person_list/'
     success_url = reverse_lazy('person_list_cbv')
 
 
-class PersonDelete(DeleteView):
+class PersonDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = ("clientes.deletar_clientes",)
     model = Person
     # success_url = reverse_lazy('person_list_cbv')
 

@@ -4,10 +4,10 @@ from clientes.models import Person
 from produtos.models import Produto
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from .managers import VendaManager
 
 
 class Venda(models.Model):
-
     numero = models.CharField(max_length=5)
     valor = models.DecimalField(max_digits=50, decimal_places=2, null=True, blank=True)
     desconto = models.DecimalField(max_digits=50, decimal_places=2, default=0)
@@ -15,10 +15,17 @@ class Venda(models.Model):
     pessoa = models.ForeignKey(Person, null=True, blank=True, on_delete=models.PROTECT)
     nfe_emitida = models.BooleanField(default=False)
 
+    objects = VendaManager()
+
     def __str__(self):
         return self.numero
 
-    # TODO: Refactoring necessary
+    class Meta:
+       permissions = (
+           ("setar_nfe", "Usuario pode setar NF-e"),
+           ("ver_dashboard", "Pode visualizar dashboard"),
+       )
+
     def calcular_total(self):
         tot = self.itemdopedido_set.all().aggregate(
             tot_ped=Sum((F('quantidade') * F('produto__preco')) - F('desconto'), output_field=FloatField())
@@ -51,6 +58,7 @@ class ItemDoPedido(models.Model):
 @receiver(post_save, sender=ItemDoPedido)
 def update_vendas_total(sender, instance, **kwargs):
     instance.venda.calcular_total()
+
 
 @receiver(post_save, sender=Venda)
 def update_vendas_total2(sender, instance, **kwargs):

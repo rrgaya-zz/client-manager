@@ -29,6 +29,9 @@ class Person(models.Model):
     class Meta:
         verbose_name = "Person"
         verbose_name_plural = "Persons"
+        permissions = (
+            ("deletar_clientes", "DELETAR CLIENTES"),
+        )
 
 
 
