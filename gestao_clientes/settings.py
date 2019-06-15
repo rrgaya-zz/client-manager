@@ -13,7 +13,6 @@ ALLOWED_HOSTS = ['gestao-clientes-rrgaya.herokuapp.com', 'localhost', '127.0.0.1
 
 INTERNAL_IPS = ['127.0.0.1']
 
-# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -21,6 +20,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.facebook',
+
     'clientes',
     'home',
     'produtos',
@@ -30,9 +36,11 @@ INSTALLED_APPS = [
     'debug_toolbar',
 ]
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
+SITE_ID = 1
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 
 
 MIDDLEWARE = [
@@ -43,14 +51,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # ...
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    # ...
     # Meu Middleware
     'mymiddlewares.MetaData.MetaData'
 ]
 
 ROOT_URLCONF = 'gestao_clientes.urls'
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 TEMPLATES = [
     {
@@ -69,7 +81,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'gestao_clientes.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases

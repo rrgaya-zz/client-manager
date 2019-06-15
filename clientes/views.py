@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_list_or_404
+from django.shortcuts import render, redirect
 from .models import Person
 from produtos.models import Produto
 from vendas.models import Venda
