@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 from django.contrib.auth import logout
 from django.views.generic import TemplateView
 # TODO: Importando apenas para testar o tipo View
@@ -35,8 +35,11 @@ class HomePageView(TemplateView):
 class MyView(View):
 
     def get(self, request, *args, **kwargs):
-        # return HttpResponse('Hello, World!')
-        return render(request, 'home3.html')
+        response = render_to_response('home3.html')
+        response.set_cookie('color', 'blue')
+        mycookie = request.COOKIES['color']
+        print(mycookie)
+        return response
 
     def post(self, request, *args, **kwargs):
         return HttpResponse("POST")
