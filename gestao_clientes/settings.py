@@ -46,6 +46,8 @@ MIDDLEWARE = [
     # ...
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     # ...
+    # Meu Middleware
+    'mymiddlewares.MetaData.MetaData'
 ]
 
 ROOT_URLCONF = 'gestao_clientes.urls'
