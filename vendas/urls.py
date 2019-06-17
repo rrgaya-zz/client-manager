@@ -6,7 +6,8 @@ from .views import (
     ListaVendas,
     EditPedido,
     DeletePedido,
-    DeleteItemPedido
+    DeleteItemPedido,
+    EditItemPedido
 )
 
 
@@ -18,4 +19,5 @@ urlpatterns = [
     path('edit-pedido/<int:venda>', EditPedido.as_view(), name='edit_pedido'),
     path('delete-pedido/<int:venda>', DeletePedido.as_view(), name='delete_pedido'),
     path('delete-item-pedido/<int:item>', DeleteItemPedido.as_view(), name='delete_item_pedido'),
+    path('edit-item-pedido/<int:item>', EditItemPedido.as_view(), name='edit_item_pedido'),
 ]

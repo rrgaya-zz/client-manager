@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.views import View
 from .models import Venda, ItemDoPedido
-from .form import ItemPedidoForm
+from .form import ItemPedidoForm, ItemDoPedidoModelForm
 
 
 
@@ -114,4 +114,19 @@ class DeleteItemPedido(View):
         item = ItemDoPedido.objects.get(pk=item)
         venda_id = item.venda.id
         item.delete()
+        return redirect('edit_pedido', venda=venda_id)
+
+
+class EditItemPedido(View):
+    def get(self, request, item):
+        item = ItemDoPedido.objects.get(pk=item)
+        form = ItemDoPedidoModelForm(instance=item)
+        return render(request, 'vendas/edit-itempedido.html', {"item": item, 'form': form})
+
+    def post(self, request, item):
+        item = ItemDoPedido.objects.get(pk=item)
+        item.quantidade = request.POST['quantidade']
+        item.desconto = request.POST['desconto']
+        item.save()
+        venda_id = item.venda.id
         return redirect('edit_pedido', venda=venda_id)
