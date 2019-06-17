@@ -103,3 +103,15 @@ class DeletePedido(View):
         venda = Venda.objects.get(pk=venda)
         venda.delete()
         return redirect('lista_vendas')
+    
+    
+class DeleteItemPedido(View):
+    def get(self, request, item):
+        item = ItemDoPedido.objects.get(pk=item)
+        return render(request, 'vendas/delete-confirm-item.html', {"item": item})
+
+    def post(self, request, item):
+        item = ItemDoPedido.objects.get(pk=item)
+        venda_id = item.venda.id
+        item.delete()
+        return redirect('edit_pedido', venda=venda_id)

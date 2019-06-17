@@ -1,0 +1,6 @@
+<h2>Tem certeza que deseja deletar?</h2>
+
+<form action="{% url 'delete_item_pedido' item.id %} ", method="POST">
+    {% csrf_token %}
+    <button type="submit">Excluir item</button>
+</form>
