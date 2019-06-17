@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+    {% if message %}
+        {{ message }}
+    {% endif %}
+
+    <h1>Novo pedido</h1>
+    <form method="POST" action="{% url 'novo_pedido' %}">
+        {% csrf_token %}
+        <h2> Cabeçalho do Pedido {{ venda.numero }}</h2>
+
+        <input type="text" name="numero" class="form-control"
+               value="{{ numero }}" placeholder="Numero">
+        <label for="desconto">Desconto</label>
+        <input type="text" name="desconto" id="desconto" class="form-control"
+               value="{{ desconto }}" placeholder="Desconto">
+
+        <input type="hidden" value="{{ venda.id }}" name="venda_id">
+
+        <br>
+        <button type="submit">Enviar</button>
+    </form>
+    <hr>
+    <p>Total: {{ venda.valor }}</p>
+    <p>Desconto: {{ venda.desconto }}</p>
+{% endblock %}
+
+{% block extra %}
+
+    {% if venda %}
+        <form action="{% url 'novo-item-pedido' venda.id %}" method="POST">
+            {% csrf_token %}
+            {{ form_item }}
+            <button type="submit">Incluir</button>
+        </form>
+
+        <h2>Listagem de itens</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Descricao</th>
+                    <th scope="col">Quantidade</th>
+                    <th scope="col">Desconto</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Excluir</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in itens %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.produto }}</td>
+                    <td>{{ item.quantidade }}</td>
+                    <td>{{ item.desconto }}</td>
+                    <td><a href="{% url 'edit_item_pedido' item.id %}">
+                        <i class="fas fa-edit"></i>
+                    </a></td>
+                    <td><a href="{% url 'delete_item_pedido' item.id %}">Excluir</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}

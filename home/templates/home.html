@@ -13,10 +13,11 @@
         <h1>Administração</h1>
 
         {% if user.is_authenticated %}
-            <p>Olá {{ user.username }}</p>
+            <p>{{ request.session.message }}</p>
             <a href="{% url 'person_list' %}">Acessar lista de clientes</a>
             <hr>
-            <a href="{% url 'meu_logout' %}">Sair</a>
+            <a href="{% url 'meu_logout' %}">Sair</a><br>
+            <a href="{% url 'password_change' %}">Alterar Senha</a>
 
         {% else %}
             <a href="{% url 'login' %}" class="btn btn-info">Entrar</a>

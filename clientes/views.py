@@ -1,6 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect, get_list_or_404
-from .models import Person, Produto, Venda
+from django.shortcuts import render, redirect
+from .models import Person
+from produtos.models import Produto
+from vendas.models import Venda
 from .forms import PersonForm
 from django.contrib.auth.decorators import login_required
 # Import para CBV
@@ -13,9 +15,11 @@ from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.views.generic import View
 
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
+
 @login_required()
 def person_list(request):
-
     # nome = request.GET.get('nome', None)
     # sobrenome = request.GET.get('sobrenome', None)
 
@@ -34,6 +38,11 @@ def person_list(request):
 
 @login_required()
 def person_new(request):
+    # TODO: Validar permissões
+    # if not request.user.has_perm('clientes.add_person'):
+    #     return HttpResponse("Nao autorizado")
+    # elif not request.user.is_superuser():
+    #     return HttpResponse("Não é superuser")
     form = PersonForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
@@ -46,35 +55,39 @@ def person_new(request):
 
 @login_required()
 def person_update(request, id):
-    # person = get_list_or_404(Person, pk=id)
     person = Person.objects.get(pk=id)
     form = PersonForm(request.POST or None, request.FILES or None, instance=person)
-
     if form.is_valid():
         form.save()
         return redirect('person_list')
-
     return render(request, 'person_form.html', {'form': form})
 
 
 @login_required()
 def person_delete(request, id):
     person = Person.objects.get(pk=id)
-
     if request.method == 'POST':
         person.delete()
         return redirect('person_list')
-
     return render(request, 'person_delete_confirm.html', {'person': person})
 
 
-class PersonList(ListView):
+class PersonList(LoginRequiredMixin, ListView):
     model = Person
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        primeiro_acesso = self.request.session.get('prmeiro_acesso', False)
+        if not primeiro_acesso:
+            context['message'] = "Prmeiro acesso"
+            self.request.session['prmeiro_acesso'] = True
+        else:
+            context['message'] = "Segundo acesso"
+        print(context['message']) # Apenas em development
+        return context
 
 
-class PersonDetail(DetailView):
+class PersonDetail(LoginRequiredMixin, DetailView):
     model = Person
-
     """ Fazendo Override do metodo nativo do Django
         Diminuindo de 9 queries para 8
     """
@@ -96,26 +109,24 @@ class PersonDetail(DetailView):
         return context
 
 
-class PersonCreate(CreateView):
-
+class PersonCreate(LoginRequiredMixin, CreateView):
     model = Person
     fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo', 'doc']
     # success_url = '/clientes/person_list/'
     success_url = reverse_lazy('person_list_cbv')
 
 
-class PersonUpdate(UpdateView):
-
+class PersonUpdate(LoginRequiredMixin, UpdateView):
     model = Person
     fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo', 'doc']
     # success_url = '/clientes/person_list/'
     success_url = reverse_lazy('person_list_cbv')
 
 
-class PersonDelete(DeleteView):
+class PersonDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = ("clientes.deletar_clientes",)
     model = Person
     # success_url = reverse_lazy('person_list_cbv')
-
     def get_success_url(self):
         return reverse_lazy('person_list_cbv')
 
@@ -124,11 +135,8 @@ class ProdutoBulk(View):
     def get(self, request):
         produtos = ['notebook', 'mouse', 'teclado', 'monitor', 'HD', 'livros']
         list_produtos = []
-
         for produto in produtos:
             p = Produto(descricao=produto, preco=10)
             list_produtos.append(p)
-
         Produto.objects.bulk_create(list_produtos)
-
         return HttpResponse("Funcionou o BULK")

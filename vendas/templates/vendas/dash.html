@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <h1>Dashboard</h1>
+    <p>TM: {{ media }}</p>
+    <p>TM Desconto: {{ desconto }}</p>
+    <p>Soma: {{ soma }}</p>
+    <p>Contagem de vendas: {{ qt_vendas }}</p>
+    <p>Valor Maximo: {{ tm_max }}</p>
+    <p>Valor Maximo: {{ tm_min }}</p>
+    <p>Numero de pedidos com NFE: {{ num_ped_nfe }}</p>
+{% endblock %}

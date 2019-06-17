@@ -45,7 +45,10 @@
 
         <div class="col">
             {% if user.is_authenticated %}
-                <p>Olá <span class="badge badge-primary">{{ user.username }}</span> <a href="{% url 'meu_logout' %}"><span class="badge badge-dark">Sair</span></a></p>
+                <p>Olá <span class="badge badge-primary">{{ user.username }}</span>
+                    <a href="{% url 'meu_logout' %}"><span class="badge badge-dark">Sair</span></a>
+                     <a href="{% url 'password_change' %}"><span class="badge badge-dark">Alterar Senha</span></a>
+                </p>
             {% endif %}
         </div>
     </div>

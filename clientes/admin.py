@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Person, Documento, Venda, Produto
-from .actions import nfe_emitida
+from .models import Person, Documento
 
 
 class PersonAdmin(admin.ModelAdmin):
@@ -15,7 +14,8 @@ class PersonAdmin(admin.ModelAdmin):
     # exclude = ('bio', )
     list_display = ('first_name', 'last_name', 'age', 'salary', 'bio', 'tem_foto', 'doc')
     list_filter = ('age', 'salary', )
-    search_fields = ['first_name', 'last_name', 'age',]
+    search_fields = ['id', 'first_name', 'last_name', 'age',]
+    autocomplete_fields = ["doc"]
 
     def tem_foto(self, obj):
         if obj.photo:
@@ -24,28 +24,11 @@ class PersonAdmin(admin.ModelAdmin):
             return "Não"
 
 
-class VendaAdmin(admin.ModelAdmin):
-    fields = ('numero', 'desconto', 'impostos', 'pessoa', 'produtos', 'valor', 'nfe_emitida')
-    readonly_fields =  ('valor',)
-    raw_id_fields = ('pessoa',)
-    list_filter = ('pessoa__doc', 'desconto')
-    list_display = ('numero', 'id', 'valor', 'get_total', 'nfe_emitida')
-    search_fields = ['id', 'pessoa__first_name', 'pessoa__doc__num_doc']
-    actions = [nfe_emitida]
 
-    def total(self, obj):
-        return obj.get_total()
-
-    total.short_description = 'Total'
-
-
-
-class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ('id', 'descricao', 'preco')
+class DocumentoAdmin(admin.ModelAdmin):
+    search_fields = ["num_doc"]
 
 
 
 admin.site.register(Person, PersonAdmin)
-admin.site.register(Documento)
-admin.site.register(Venda, VendaAdmin)
-admin.site.register(Produto, ProdutoAdmin)
+admin.site.register(Documento, DocumentoAdmin)
