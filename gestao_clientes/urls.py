@@ -10,27 +10,19 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib.auth import urls as url_auth
 
-
 urlpatterns = [
     path('', include(home_urls), name='home'),
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
     path('clientes/', include(clientes_urls), name='url_clientes'),
     path('produtos/', include(produtos_urls), name='produtos_urls'),
     path('vendas/', include(vendas_urls), name='vendas_urls'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('conta/', include(url_auth)),
-    # path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    # path('accounts/', include('allauth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
-        # For django versions before 2.0:
-        # url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+
 
 admin.site.site_header = "Gestão de Clientes"
 admin.site.index_title = "Administração"

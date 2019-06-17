@@ -1,9 +1,5 @@
 {% extends 'base.html' %}
-{% load bootstrap %}
-
-
 {% block title %} Seja bem vindo {% endblock %}
-
 
 {% block main %}
 
@@ -11,7 +7,7 @@
     <form method="POST">
         {% csrf_token %}
 <!--        {{ form.as_p }}-->
-        {{ form|bootstrap }}
+        {{ form }}
     <button type="submit" class="btn btn-info">Login</button>
     <a href="{% url 'password_reset' %}"><span class="badge badge-dark">Esqueci minha senha</span></a>
 

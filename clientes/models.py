@@ -2,7 +2,6 @@ from django.db import models
 
 
 class Documento(models.Model):
-
     num_doc = models.CharField(max_length=50)
 
     def __str__(self):
