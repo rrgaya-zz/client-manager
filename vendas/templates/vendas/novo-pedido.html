@@ -4,7 +4,7 @@
     <h1>Novo pedido</h1>
     <form method="POST" action="{% url 'novo_pedido' %}">
         {% csrf_token %}
-        <h2> Cabeçalho do Pedido {{ venda_obj.numero }}</h2>
+        <h2> Cabeçalho do Pedido {{ venda.numero }}</h2>
 
         <input type="text" name="numero" class="form-control"
                value="{{ numero }}" placeholder="Numero">
@@ -12,7 +12,7 @@
         <input type="text" name="desconto" id="desconto" class="form-control"
                value="{{ desconto }}" placeholder="Desconto">
 
-        <input type="hidden" value="{{ venda_obj.id }}" name="venda_id">
+        <input type="hidden" value="{{ venda.id }}" name="venda_id">
 
         <br>
         <button type="submit">Enviar</button>
@@ -21,8 +21,8 @@
 
 {% block extra %}
 
-    {% if venda_obj %}
-        <form action="{% url 'novo-item-pedido' venda_obj.id %}" method="POST">
+    {% if venda %}
+        <form action="{% url 'novo-item-pedido' venda.id %}" method="POST">
             {% csrf_token %}
             {{ form_item }}
             <button type="submit">Incluir</button>
