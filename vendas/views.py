@@ -4,7 +4,6 @@ from .models import Venda, ItemDoPedido
 from .form import ItemPedidoForm, ItemDoPedidoModelForm
 
 
-
 class DashboardView(View):
 
     def dispatch(self, request, *args, **kwargs):

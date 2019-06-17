@@ -18,7 +18,6 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
-
 @login_required()
 def person_list(request):
     # nome = request.GET.get('nome', None)
@@ -39,11 +38,11 @@ def person_list(request):
 
 @login_required()
 def person_new(request):
-    if not request.user.has_perm('clientes.add_person'):
-        return HttpResponse("Nao autorizado")
-    elif not request.user.is_superuser():
-        return HttpResponse("Não é superuser")
-
+    # TODO: Validar permissões
+    # if not request.user.has_perm('clientes.add_person'):
+    #     return HttpResponse("Nao autorizado")
+    # elif not request.user.is_superuser():
+    #     return HttpResponse("Não é superuser")
     form = PersonForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
@@ -56,36 +55,28 @@ def person_new(request):
 
 @login_required()
 def person_update(request, id):
-    # person = get_list_or_404(Person, pk=id)
     person = Person.objects.get(pk=id)
     form = PersonForm(request.POST or None, request.FILES or None, instance=person)
-
     if form.is_valid():
         form.save()
         return redirect('person_list')
-
     return render(request, 'person_form.html', {'form': form})
 
 
 @login_required()
 def person_delete(request, id):
     person = Person.objects.get(pk=id)
-
     if request.method == 'POST':
         person.delete()
         return redirect('person_list')
-
     return render(request, 'person_delete_confirm.html', {'person': person})
 
 
 class PersonList(LoginRequiredMixin, ListView):
     model = Person
-
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
-
         primeiro_acesso = self.request.session.get('prmeiro_acesso', False)
-
         if not primeiro_acesso:
             context['message'] = "Prmeiro acesso"
             self.request.session['prmeiro_acesso'] = True
@@ -97,7 +88,6 @@ class PersonList(LoginRequiredMixin, ListView):
 
 class PersonDetail(LoginRequiredMixin, DetailView):
     model = Person
-
     """ Fazendo Override do metodo nativo do Django
         Diminuindo de 9 queries para 8
     """
@@ -137,7 +127,6 @@ class PersonDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = ("clientes.deletar_clientes",)
     model = Person
     # success_url = reverse_lazy('person_list_cbv')
-
     def get_success_url(self):
         return reverse_lazy('person_list_cbv')
 
@@ -146,11 +135,8 @@ class ProdutoBulk(View):
     def get(self, request):
         produtos = ['notebook', 'mouse', 'teclado', 'monitor', 'HD', 'livros']
         list_produtos = []
-
         for produto in produtos:
             p = Produto(descricao=produto, preco=10)
             list_produtos.append(p)
-
         Produto.objects.bulk_create(list_produtos)
-
         return HttpResponse("Funcionou o BULK")
