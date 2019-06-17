@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.forms import model_to_dict
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from .models import Person
 from produtos.models import Produto
@@ -140,3 +141,28 @@ class ProdutoBulk(View):
             list_produtos.append(p)
         Produto.objects.bulk_create(list_produtos)
         return HttpResponse("Funcionou o BULK")
+
+
+def api(request):
+    produto = Produto.objects.last()
+    response = model_to_dict(produto)
+
+    produtos = Produto.objects.all()
+    lista_produtos = []
+
+    for p in produtos:
+        lista_produtos.append(model_to_dict(p))
+
+    return JsonResponse(lista_produtos, safe=False, status=200)
+
+
+class APICBV(View):
+    def get(self, request):
+        data = {'nome': 'Ricardo', 'bio': "Software Engineer"}
+        produtos = Produto.objects.all()
+        lista_produtos = []
+
+        for p in produtos:
+            lista_produtos.append(model_to_dict(p))
+
+        return JsonResponse(lista_produtos, safe=False)
