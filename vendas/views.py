@@ -1,5 +1,4 @@
-from django.shortcuts import render
-from django.shortcuts import HttpResponse
+from django.shortcuts import render, redirect, HttpResponse
 from django.views import View
 from .models import Venda, ItemDoPedido
 from .form import ItemPedidoForm
@@ -93,3 +92,14 @@ class EditPedido(View):
         data['venda'] = venda
         data['itens'] = venda.itemdopedido_set.all()
         return render(request, "vendas/novo-pedido.html", data)
+
+
+class DeletePedido(View):
+    def get(self, request, venda):
+        venda = Venda.objects.get(pk=venda)
+        return render(request, 'vendas/delete-confirm-pedido.html', {"venda": venda})
+
+    def post(self, request, venda):
+        venda = Venda.objects.get(pk=venda)
+        venda.delete()
+        return redirect('lista_vendas')

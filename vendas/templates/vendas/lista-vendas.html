@@ -21,12 +21,13 @@
                 <td>{{ venda.desconto }}</td>
                 <td>{{ venda.valor }}</td>
                 <td><a href="{% url 'edit_pedido' venda.id %}">Editar</a></td>
+                <td><a href="{% url 'delete_pedido' venda.id %}">Excluir</a></td>
             </tr>
         {% endfor %}
 
         </tbody>
     </table>
-    <!-- /.table -->
+<a href="{% url 'novo_pedido' %}">Nova venda</a>
 {% endblock %}
 
 {% block extra %}
