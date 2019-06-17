@@ -1,16 +1,11 @@
 {% extends 'base.html' %}
-<!--{% load crispy_forms_tags %}-->
-{% load bootstrap %}
-
 {% block title %} Seja bem vindo {% endblock %}
 
 {% block main %}
     <h3>Novo cliente</h3>
     <form method="POST", enctype="multipart/form-data">
         {% csrf_token %}
-<!--        {{ form }}-->
-        {{ form|bootstrap }}
-<!--        {% crispy form %}-->
+        {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Salvar</button>
     </form>
 {% endblock %}
