@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block main %}
+
+    {% if message %}
+        {{ message }}
+    {% endif %}
+
     <h1>Novo pedido</h1>
     <form method="POST" action="{% url 'novo_pedido' %}">
         {% csrf_token %}
@@ -17,6 +22,9 @@
         <br>
         <button type="submit">Enviar</button>
     </form>
+    <hr>
+    <p>Total: {{ venda.valor }}</p>
+    <p>Desconto: {{ venda.desconto }}</p>
 {% endblock %}
 
 {% block extra %}

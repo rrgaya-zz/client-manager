@@ -26,6 +26,9 @@ class Venda(models.Model):
            ("ver_dashboard", "Pode visualizar dashboard"),
        )
 
+    def get_raw_vendas(self):
+        return Venda.objects_set.all('select * from vendas-venda where id=%s', [7, ])
+
     def calcular_total(self):
         tot = self.itemdopedido_set.all().aggregate(
             tot_ped=Sum((F('quantidade') * F('produto__preco')) - F('desconto'), output_field=FloatField())
