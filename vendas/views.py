@@ -88,12 +88,10 @@ class NovoItemPedido(View):
 class ListaVendas(View):
     def get(self, request):
         logger.debug("Acessaram a listagem de vendas")
-
         try:
             1/0
         except Exception as E:
             logger.error(E)
-
         vendas = Venda.objects.all()
         return render(request, 'vendas/lista-vendas.html', {'vendas': vendas})
 

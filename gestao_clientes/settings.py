@@ -130,6 +130,7 @@ MEDIA_ROOT = 'media'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL= '/clientes/list'
 
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
