@@ -5,14 +5,14 @@ from .models import Person, Documento
 class PersonAdmin(admin.ModelAdmin):
     model = Person
     fieldsets = (
-        ('Dados Pessoais', {'fields': ('first_name', 'last_name')}),
+        ('Dados Pessoais', {'fields': ('first_name', 'last_name', 'telefone')}),
         ('Dados complementares', {
             'classes': ('collapse',),
             'fields': ('age', 'salary', 'bio', 'photo', 'doc')})
     )
     # fields = (('first_name', 'last_name'), ('age', 'salary'), 'bio', ('doc', 'photo'))
     # exclude = ('bio', )
-    list_display = ('first_name', 'last_name', 'age', 'salary', 'bio', 'tem_foto', 'doc')
+    list_display = ('first_name', 'last_name', 'age', 'salary', 'bio', 'tem_foto', 'doc', 'telefone')
     list_filter = ('age', 'salary', )
     search_fields = ['id', 'first_name', 'last_name', 'age',]
     autocomplete_fields = ["doc"]

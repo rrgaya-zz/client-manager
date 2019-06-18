@@ -17,6 +17,7 @@ class Person(models.Model):
     bio = models.TextField()
     photo = models.ImageField(upload_to='clients_photos', null=True, blank=True)
     doc = models.OneToOneField(Documento, null=True, blank=True, on_delete=models.CASCADE)
+    telefone = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
         return self.first_name + " " + self.last_name
@@ -26,11 +27,13 @@ class Person(models.Model):
         return self.first_name + " " + self.last_name
 
     class Meta:
-        verbose_name = "Person"
-        verbose_name_plural = "Persons"
+        verbose_name = "Pessoa"
+        verbose_name_plural = "Pessoas"
         permissions = (
             ("deletar_clientes", "DELETAR CLIENTES"),
         )
+        
+        unique_together = (('first_name', 'telefone'), )
 
 
 
