@@ -6,7 +6,6 @@ from produtos.models import Produto
 from vendas.models import Venda
 from .forms import PersonForm
 from django.contrib.auth.decorators import login_required
-# Import para CBV
 from django.utils import timezone
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -15,8 +14,14 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.views.generic import View
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    PermissionRequiredMixin
+)
+import logging
 
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+
+logger = logging.getLogger("django")
 
 
 @login_required()

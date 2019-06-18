@@ -8,3 +8,4 @@ media/
 .env
 CONFIG_HEROKU.md
 heroku
+debug.log
