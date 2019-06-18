@@ -40,7 +40,7 @@ class Venda(models.Model):
        )
 
     def get_raw_vendas(self):
-        return Venda.objects_set.all('select * from vendas-venda where id=%s', [7, ])
+        return Venda.objects_set.all('select * from vendas-venda where id = %s', ['7', ])
 
     def calcular_total(self):
         tot = self.itemdopedido_set.all().aggregate(
