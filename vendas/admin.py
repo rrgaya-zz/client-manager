@@ -15,12 +15,12 @@ class ItemPedidoInLine(admin.TabularInline):
 
 class VendaAdmin(admin.ModelAdmin):
     
-    fields = ('numero', 'desconto', 'impostos', 'pessoa', 'valor', 'nfe_emitida')
+    fields = ('numero', 'desconto', 'impostos', 'pessoa', 'valor', 'status', 'nfe_emitida')
     readonly_fields =  ('valor',)
     # raw_id_fields = ('pessoa',)
     autocomplete_fields = ["pessoa"]
     list_filter = ('pessoa__doc', 'desconto')
-    list_display = ('numero', 'id', 'valor', 'nfe_emitida')
+    list_display = ('numero', 'id', 'valor', 'nfe_emitida', 'status')
     search_fields = ['id', 'pessoa__first_name', 'pessoa__doc__num_doc']
     actions = [nfe_emitida, nfe_nao_emitida]
     inlines = [ItemPedidoInLine]

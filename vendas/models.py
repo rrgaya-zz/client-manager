@@ -8,12 +8,25 @@ from .managers import VendaManager
 
 
 class Venda(models.Model):
+    ABERTA = "AB"
+    FECHADA = "FC"
+    PROCESSANDO = "PC"
+    DESCONHECIDO = "DC"
+    
+    STATUS = (
+        (ABERTA, 'Aberta'),
+        (FECHADA, 'Fechada'),
+        (PROCESSANDO, 'Processando'),
+        (DESCONHECIDO, 'Desconhecido'),
+    )
+
     numero = models.CharField(max_length=5)
     valor = models.DecimalField(max_digits=50, decimal_places=2, null=True, blank=True)
     desconto = models.DecimalField(max_digits=50, decimal_places=2, default=0)
     impostos = models.DecimalField(max_digits=50, decimal_places=2, default=0)
     pessoa = models.ForeignKey(Person, null=True, blank=True, on_delete=models.PROTECT)
     nfe_emitida = models.BooleanField(default=False)
+    status = models.CharField(choices=STATUS, default=DESCONHECIDO, max_length=2)
 
     objects = VendaManager()
 
@@ -48,7 +61,12 @@ class ItemDoPedido(models.Model):
     def __str__(self):
         return self.venda.numero + " - " + self.produto.descricao
 
-
+    class Meta:
+        verbose_name='Item do pedido'
+        verbose_name_plural = "Itens do pedido"
+        unique_together = (
+            ('venda', 'produto'),
+        )
 
 """Usando Signals
 """
