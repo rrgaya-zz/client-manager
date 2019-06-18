@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.twitter',
     'allauth.socialaccount.providers.google',
 
+    'rest_framework',
+
     'clientes',
     'home',
     'produtos',
