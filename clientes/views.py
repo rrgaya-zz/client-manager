@@ -1,3 +1,4 @@
+from django.core.checks import messages
 from django.forms import model_to_dict
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -19,6 +20,8 @@ from django.contrib.auth.mixins import (
     PermissionRequiredMixin
 )
 import logging
+import csv, io
+
 
 
 logger = logging.getLogger("django")
@@ -171,3 +174,44 @@ class APICBV(View):
             lista_produtos.append(model_to_dict(p))
 
         return JsonResponse(lista_produtos, safe=False)
+
+
+def csv_download(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
+    writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+
+    return response
+
+
+def clientes_upload(request):
+    template_name = "clientes/upload.html"
+    prompt = {
+        'Ordem': 'first_name, last_name, age, salary, bio'
+    }
+
+    if request.method == "GET":
+        return render(request, template_name, prompt)
+
+    csv_file = request.FILES['file']
+
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request, 'Esta file não é csv')
+
+    data_set = csv_file.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string, delimiter=',', quotechar='|'):
+        _, created = Person.objects.update_or_create(
+            first_name=column[0],
+            last_name=column[1],
+            age=column[2],
+            salary=column[3],
+            bio=column[4],
+        )
+    context = {}
+    return render(request, template_name, context)

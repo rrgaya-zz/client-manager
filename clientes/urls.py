@@ -11,6 +11,8 @@ from .views import PersonDelete
 from .views import ProdutoBulk
 from .views import api
 from .views import APICBV
+from .views import csv_download
+from .views import clientes_upload
 
 
 urlpatterns = [
@@ -27,4 +29,6 @@ urlpatterns = [
     path('person_bulk/', ProdutoBulk.as_view(), name="person_bulk"),
     path('api/', api, name="api"),
     path('apicbv/', APICBV.as_view(), name="apicbv"),
+    path('csv-download/', csv_download, name="csv_download"),
+    path('upload/', clientes_upload, name="clientes_upload"),
 ]
