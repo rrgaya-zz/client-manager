@@ -1,12 +1,13 @@
-from django.urls import path
-from .views import ArticleView, PostList, PostDetail
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from api import views
 
-app_name = "articles"
+router = DefaultRouter()
+router.register('produtos', views.ProdutoViewSet)
+
 
 urlpatterns = [
-    path('', PostList.as_view()),
-    path('<int:pk>', PostDetail.as_view()),
-    path('articles/<int:pk>', ArticleView.as_view()),
-    path('articles/<int:pk>', ArticleView.as_view()),
-    path('articles/<int:pk>', ArticleView.as_view()),
+    path('', include(router.urls)),
 ]
+
+urlpatterns += router.urls
