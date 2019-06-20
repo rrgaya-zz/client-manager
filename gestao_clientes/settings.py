@@ -42,6 +42,7 @@ LOCAL_APPS = [
     'home',
     'produtos',
     'vendas',
+    'api',
 ]
 
 INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DEFAULT_APPS
@@ -154,4 +155,10 @@ LOGGING = {
             'propagate': True,
         },
     },
+}
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5
 }

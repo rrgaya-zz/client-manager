@@ -21,6 +21,14 @@ from django.contrib.auth.mixins import (
 )
 import logging
 import csv, io
+from rest_framework import viewsets
+from .serializers import PersonSerializer
+from rest_framework import generics
+
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+
 
 
 
@@ -215,3 +223,19 @@ def clientes_upload(request):
         )
     context = {}
     return render(request, template_name, context)
+
+
+# class PersonViewSet(generics.ListAPIView):
+#     queryset = Person.objects.all()
+#     serializer_class = PersonSerializer
+
+
+class PersonViewSet(viewsets.ModelViewSet):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
+
+
+class PersonViewAPI(APIView):
+    def get(self, request):
+        person = Person.objects.all()
+        return Response({"pessoas": person})

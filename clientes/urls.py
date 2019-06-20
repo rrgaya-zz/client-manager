@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import person_list
 from .views import person_new
 from .views import person_update
@@ -13,10 +13,13 @@ from .views import api
 from .views import APICBV
 from .views import csv_download
 from .views import clientes_upload
+from .views import PersonViewSet
+from .api import router
 
 
 urlpatterns = [
-    path('', person_list, name='person_list'),
+    # path('', person_list, name='person_list'),
+    path('', include(router.urls)),
     path('list/', person_list, name='person_list'),
     path('new/', person_new, name='person_new'),
     path('update/<int:id>/', person_update, name='person_update'),
@@ -31,4 +34,7 @@ urlpatterns = [
     path('apicbv/', APICBV.as_view(), name="apicbv"),
     path('csv-download/', csv_download, name="csv_download"),
     path('upload/', clientes_upload, name="clientes_upload"),
+    path('api-clientes/', PersonViewSet, name='api_clientes'),
 ]
+
+# urlpatterns += router.urls
