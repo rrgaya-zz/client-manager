@@ -7,6 +7,7 @@ from .models import Article
 from .serializers import ArticleSerializer
 from rest_framework import generics
 from .serializers import PostSerializer
+from rest_framework import status
 
 
 class PostList(generics.ListAPIView):
@@ -25,19 +26,22 @@ class Artigos(viewsets.ModelViewSet):
 
 
 class ArticleView(APIView):
-    def get(self, request):
+
+    serializer_class = ArticleSerializer
+
+    def get(self, request, format=None):
         articles = Article.objects.all()
         serializer = ArticleSerializer(articles, many=True)
         return Response({"articles": serializer.data})
 
-    def post(self, request):
-        article = request.data.get('article')
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'message': '403 FORBIDDEN'}, status=status.HTTP_409_CONFLICT)
 
-        # Create an article from the above data
-        serializer = ArticleSerializer(data=article)
-        if serializer.is_valid(raise_exception=True):
-            article_saved = serializer.save()
-        return Response({"success": "Article '{}' created successfully".format(article_saved.title)})
 
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
