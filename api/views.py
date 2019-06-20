@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView, get_object_or_404
 from rest_framework.mixins import ListModelMixin
+from rest_framework import viewsets
 from .models import Article
 from .serializers import ArticleSerializer
 from rest_framework import generics
@@ -14,6 +15,11 @@ class PostList(generics.ListAPIView):
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Article.objects.all()
+    serializer_class = PostSerializer
+
+
+class Artigos(viewsets.ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = PostSerializer
 
