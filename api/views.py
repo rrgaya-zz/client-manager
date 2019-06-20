@@ -13,7 +13,6 @@ class PostList(generics.ListAPIView):
     serializer_class = PostSerializer
 
 
-# class PostDetail(generics.RetrieveAPIView):
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Article.objects.all()
     serializer_class = PostSerializer

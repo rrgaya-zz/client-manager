@@ -13,7 +13,7 @@ from django.contrib.auth import urls as url_auth
 urlpatterns = [
     path('', include(home_urls), name='home'),
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),
+    path('api/v1', include('api.urls')),
     path('accounts/', include('allauth.urls')),
     path('clientes/', include(clientes_urls), name='url_clientes'),
     path('produtos/', include(produtos_urls), name='produtos_urls'),
