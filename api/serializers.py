@@ -1,8 +1,9 @@
 from rest_framework import serializers
-from produtos.models import Produto
+from .models import TestDafiti
 
 
-class ProdutoSerializer(serializers.HyperlinkedModelSerializer):
+class ProdutoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Produto
-        fields = ('id', 'url', 'descricao', 'preco')
+        model = TestDafiti
+        fields = ('id', 'url', 'produto', 'quantidade', 'valor', 'estoque_valor')
+        read_only_fields = ('estoque_valor', )

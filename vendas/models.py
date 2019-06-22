@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Sum, F, FloatField, Max
+from django.db.models import Sum, F, FloatField
 from clientes.models import Person
 from produtos.models import Produto
 from django.db.models.signals import post_save

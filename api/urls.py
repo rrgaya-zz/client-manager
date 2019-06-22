@@ -8,6 +8,7 @@ router.register('produtos/v1', views.ProdutoViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('upload/', views.DafitiUpload),
 ]
 
 urlpatterns += router.urls

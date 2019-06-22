@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="jumbotron">
+                <strong>{{message|safe}}</strong>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h1>Cadastrar DAFITI</h1>
+        <br>
+        <p>Ordem dos campos: <strong>{{Ordem|upper}}</strong></p>
+        <hr>
+        <form method="post", enctype="multipart/form-data">
+            {% csrf_token %}
+            <label>Upload do arquivo</label>
+            <input type="file" name="file">
+            <p>Somente arquivo CSV</p>
+            <button type="submit">UPLOAD</button>
+        </form>
+    {% endif %}
+{% endblock %}
+
