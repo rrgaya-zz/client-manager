@@ -2,14 +2,12 @@ import os
 from decouple import config
 from dj_database_url import parse as dburl
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['gestao-clientes-rrgaya.herokuapp.com', 'localhost', '127.0.0.1']
-# ALLOWED_HOSTS = []
 
 
 AUTHENTICATION_BACKENDS = (
@@ -47,12 +45,9 @@ LOCAL_APPS = [
 
 INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DEFAULT_APPS
 
-
 SITE_ID = 1
 
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -137,7 +132,6 @@ MEDIA_ROOT = 'media'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL= '/clientes/list'
 
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -156,7 +150,6 @@ LOGGING = {
         },
     },
 }
-
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
