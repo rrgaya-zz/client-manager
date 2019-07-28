@@ -20,6 +20,7 @@ urlpatterns = [
     path('vendas/', include(vendas_urls), name='vendas_urls'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('conta/', include(url_auth)),
+    path('accounts/', include("accounts.urls"), name="accounts"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

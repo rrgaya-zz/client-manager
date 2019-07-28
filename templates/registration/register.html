@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+
+
+{% block title %} Criando uma conta na aplicação {% endblock %}
+
+{% block main %}
+
+    <h1>Registrar novo Usuário</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|bootstrap }}
+    <button type="submit" class="btn btn-info">Registrar</button>
+    </form>
+
+{% endblock %}
+
+
+{% block footer %}
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">Desenvolvido em Django 2.x por Ricardo Gaya</span>
+    </div>
+</footer>
+{% endblock %}

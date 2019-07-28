@@ -33,6 +33,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount.providers.twitter',
     'allauth.socialaccount.providers.google',
     'rest_framework',
+    'bootstrapform',
 ]
 
 LOCAL_APPS = [
@@ -41,6 +42,7 @@ LOCAL_APPS = [
     'produtos',
     'vendas',
     'api',
+    'accounts',
 ]
 
 INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DEFAULT_APPS
