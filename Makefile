@@ -10,3 +10,5 @@ m:
 run:
 	python manage.py runserver
 
+deploy:
+	git push heroku master
