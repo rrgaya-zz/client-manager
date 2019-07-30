@@ -49,8 +49,6 @@ INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DEFAULT_APPS
 
 SITE_ID = 1
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -157,3 +155,19 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5
 }
+
+
+# GMAIL
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_HOST_USER =  config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_FROM = EMAIL_HOST_USER
+EMAIL_SUBJECT_PREFIX = "[Project] "
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+# MANAGERS
+ADMINS = [('Website Admin', 'rrgaya@gmail.com')]
+MANAGERS = ADMINS + [('Website Manager', 'rrgaya@gmail.com')]

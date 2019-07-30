@@ -1,30 +1,48 @@
+import csv
+import io
+import logging
+
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.checks import messages
+from django.core.mail import EmailMessage
 from django.forms import model_to_dict
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from .models import Person
-from produtos.models import Produto
-from vendas.models import Venda
-from .forms import PersonForm
-from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 from django.utils import timezone
-from django.views.generic.list import ListView
+from django.views.generic import View
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView
-from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
-from django.urls import reverse_lazy
-from django.views.generic import View
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-import logging
-import csv, io
+from django.views.generic.edit import UpdateView
+from django.views.generic.list import ListView
 from rest_framework import viewsets
-from .serializers import PersonSerializer
-from rest_framework import generics
-
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from produtos.models import Produto
+from vendas.models import Venda
+from .forms import PersonForm
+from .models import Person
+from .serializers import PersonSerializer
+
+
+def email(request):
+    subject = 'Thank you for registering to our site'
+    message = ' it  means a world to us '
+
+    body = "This is test email."
+
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = ['lambdagaya@gmail.com',]
+
+    # send_mail(subject, message, email_from, recipient_list)
+
+    EmailMessage(subject=subject, body=body, to=[x[1] for x in settings.MANAGERS]).send()
+
+    return redirect("index")
 
 logger = logging.getLogger("django")
 
