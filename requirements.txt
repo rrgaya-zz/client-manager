@@ -11,6 +11,7 @@ Django==2.2.3
 django-allauth==0.39.1
 django-bootstrap-form==3.4
 djangorestframework==3.9.4
+gunicorn==19.9.0
 idna==2.8
 jedi==0.14.1
 oauthlib==3.0.2
