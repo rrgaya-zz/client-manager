@@ -42,7 +42,7 @@ def email(request):
 
     EmailMessage(subject=subject, body=body, to=[x[1] for x in settings.MANAGERS]).send()
 
-    return redirect("index")
+    return redirect("person_list")
 
 logger = logging.getLogger("django")
 
