@@ -43,9 +43,6 @@ def send_email_to_managers(request):
 def person_list(request):
     # nome = request.GET.get('nome', None)
     # sobrenome = request.GET.get('sobrenome', None)
-
-    """BUSCA - nome && sobrenome -- nome OR sobrenome
-    """
     # if nome or sobrenome:
     #     # persons = Person.objects.filter(first_name__icontains=nome, last_name__icontains=sobrenome)
     #     persons = Person.objects.filter(first_name__icontains=nome) | Person.objects.filter(last_name__icontains=sobrenome)
@@ -109,17 +106,11 @@ class PersonList(LoginRequiredMixin, ListView):
 
 class PersonDetail(LoginRequiredMixin, DetailView):
     model = Person
-    """ Fazendo Override do metodo nativo do Django
-        Diminuindo de 9 queries para 8
+    """ Override to get_context_data
     """
     def get_object(self, queryset=None):
         pk = self.kwargs.get(self.pk_url_kwarg)
         return Person.objects.select_related('doc').get(id=pk)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['now'] = timezone.now()
-        return context
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -133,21 +124,18 @@ class PersonDetail(LoginRequiredMixin, DetailView):
 class PersonCreate(LoginRequiredMixin, CreateView):
     model = Person
     fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo', 'doc']
-    # success_url = '/clientes/person_list/'
     success_url = reverse_lazy('person_list_cbv')
 
 
 class PersonUpdate(LoginRequiredMixin, UpdateView):
     model = Person
     fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo', 'doc']
-    # success_url = '/clientes/person_list/'
     success_url = reverse_lazy('person_list_cbv')
 
 
 class PersonDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = ("clientes.deletar_clientes",)
     model = Person
-    # success_url = reverse_lazy('person_list_cbv')
     def get_success_url(self):
         return reverse_lazy('person_list_cbv')
 
@@ -164,39 +152,28 @@ class ProdutoBulk(View):
 
 
 def api(request):
-    produto = Produto.objects.last()
-    response = model_to_dict(produto)
-
     produtos = Produto.objects.all()
     lista_produtos = []
-
     for p in produtos:
         lista_produtos.append(model_to_dict(p))
-
     return JsonResponse(lista_produtos, safe=False, status=200)
 
 
 class APICBV(View):
     def get(self, request):
-        data = {'nome': 'Ricardo', 'bio': "Software Engineer"}
         produtos = Produto.objects.all()
         lista_produtos = []
-
         for p in produtos:
             lista_produtos.append(model_to_dict(p))
-
         return JsonResponse(lista_produtos, safe=False)
 
 
 def csv_download(request):
-    # Create the HttpResponse object with the appropriate CSV header.
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
-
     writer = csv.writer(response)
     writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
     writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
-
     return response
 
 
@@ -205,15 +182,11 @@ def clientes_upload(request):
     prompt = {
         'Ordem': 'first_name, last_name, age, salary, bio'
     }
-
     if request.method == "GET":
         return render(request, template_name, prompt)
-
     csv_file = request.FILES['file']
-
     if not csv_file.name.endswith('.csv'):
         messages.error(request, 'Esta file não é csv')
-
     data_set = csv_file.read().decode('UTF-8')
     io_string = io.StringIO(data_set)
     next(io_string)
@@ -229,9 +202,9 @@ def clientes_upload(request):
     return render(request, template_name, context)
 
 
-# class PersonViewSet(generics.ListAPIView):
-#     queryset = Person.objects.all()
-#     serializer_class = PersonSerializer
+class PersonListSet(generics.ListAPIView):
+    queryset = Person.objects.all()
+    serializer_class = PersonSerializer
 
 
 class PersonViewSet(viewsets.ModelViewSet):
