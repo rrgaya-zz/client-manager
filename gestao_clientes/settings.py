@@ -34,6 +34,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount.providers.google',
     'rest_framework',
     'bootstrapform',
+    'cloudinary',
 ]
 
 LOCAL_APPS = [
@@ -46,6 +47,16 @@ LOCAL_APPS = [
 ]
 
 INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DEFAULT_APPS
+
+CLOUD_NAME_CLOUDINARY = config("CLOUD_NAME_CLOUDINARY")
+API_KEY_CLOUDINARY = config("API_KEY_CLOUDINARY")
+API_SERVICE_CLOUDINARY = config("API_SERVICE_CLOUDINARY")
+
+CLOUDINARY = {
+    'cloud_name' : CLOUD_NAME_CLOUDINARY,
+    'api_key' : API_KEY_CLOUDINARY,
+    'api_secret': API_SERVICE_CLOUDINARY
+}
 
 SITE_ID = 1
 

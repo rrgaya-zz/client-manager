@@ -12,3 +12,6 @@ run:
 
 deploy:
 	git push heroku master
+
+config:
+	heroku config:push -a gestao-clientes-rrgaya && heroku config

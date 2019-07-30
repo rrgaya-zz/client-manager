@@ -1,4 +1,5 @@
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 
 class Documento(models.Model):
@@ -15,7 +16,7 @@ class Person(models.Model):
     age = models.IntegerField()
     salary = models.DecimalField(max_digits=50, decimal_places=2)
     bio = models.TextField()
-    photo = models.ImageField(upload_to='clients_photos', null=True, blank=True)
+    photo = CloudinaryField("imagem")
     doc = models.OneToOneField(Documento, null=True, blank=True, on_delete=models.CASCADE)
     telefone = models.CharField(max_length=20, null=True, blank=True)
 

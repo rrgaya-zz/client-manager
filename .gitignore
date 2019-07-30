@@ -9,3 +9,4 @@ media/
 CONFIG_HEROKU.md
 heroku
 debug.log
+staticfiles
