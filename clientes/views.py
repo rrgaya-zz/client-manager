@@ -202,11 +202,6 @@ def clientes_upload(request):
     return render(request, template_name, context)
 
 
-class PersonListSet(generics.ListAPIView):
-    queryset = Person.objects.all()
-    serializer_class = PersonSerializer
-
-
 class PersonViewSet(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
