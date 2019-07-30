@@ -15,10 +15,7 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
 from django.urls import reverse_lazy
 from django.views.generic import View
-from django.contrib.auth.mixins import (
-    LoginRequiredMixin,
-    PermissionRequiredMixin
-)
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 import logging
 import csv, io
 from rest_framework import viewsets
@@ -27,9 +24,6 @@ from rest_framework import generics
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-
-
 
 
 logger = logging.getLogger("django")
