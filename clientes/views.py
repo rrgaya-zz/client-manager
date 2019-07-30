@@ -35,7 +35,7 @@ def send_email_to_managers(request):
     message = ' it  means a world to us '
     email_from = settings.EMAIL_HOST_USER
     recipient_list = settings.MANAGERS
-    send_mail(subject, message, email_from, recipient_list)
+    send_mail(subject, message, email_from, recipient_list, fail_silently=False)
     return redirect('person_list')
 
 
