@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.checks import messages
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, send_mail
 from django.forms import model_to_dict
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -28,23 +28,15 @@ from .forms import PersonForm
 from .models import Person
 from .serializers import PersonSerializer
 
+logger = logging.getLogger("django")
 
-def email(request):
+def send_email_to_managers(request):
     subject = 'Thank you for registering to our site'
     message = ' it  means a world to us '
-
-    body = "This is test email."
-
     email_from = settings.EMAIL_HOST_USER
-    recipient_list = ['lambdagaya@gmail.com',]
-
-    # send_mail(subject, message, email_from, recipient_list)
-
-    EmailMessage(subject=subject, body=body, to=[x[1] for x in settings.MANAGERS]).send()
-
-    return redirect("person_list")
-
-logger = logging.getLogger("django")
+    recipient_list = settings.MANAGERS
+    send_mail(subject, message, email_from, recipient_list)
+    return redirect('person_list')
 
 
 @login_required()

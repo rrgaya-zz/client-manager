@@ -14,12 +14,10 @@ from .views import APICBV
 from .views import csv_download
 from .views import clientes_upload
 from .views import PersonViewSet
-from .views import email
+from .views import send_email_to_managers
 from .api import router
 
-
 urlpatterns = [
-    # path('', person_list, name='person_list'),
     path('', include(router.urls)),
     path('list/', person_list, name='person_list'),
     path('new/', person_new, name='person_new'),
@@ -36,7 +34,5 @@ urlpatterns = [
     path('csv-download/', csv_download, name="csv_download"),
     path('upload/', clientes_upload, name="clientes_upload"),
     path('api-clientes/', PersonViewSet, name='api_clientes'),
-    path("email/", email),
+    path("email/", send_email_to_managers),
 ]
-
-# urlpatterns += router.urls
