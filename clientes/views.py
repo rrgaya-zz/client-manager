@@ -48,10 +48,8 @@ def person_list(request):
     #     persons = Person.objects.filter(first_name__icontains=nome) | Person.objects.filter(last_name__icontains=sobrenome)
     # else:
     #     persons = Person.objects.all()
-    persons = Person.objects.all()
-    # persons = Person.objects.filter(id=1000)
-    footer_menssage = "Desenvolvimento em Django 2.x"
-    return render(request, 'person.html', {"persons": persons, "footer_menssage": footer_menssage})
+    persons = Person.objects.all().filter(user=request.user)
+    return render(request, 'person.html', {"persons": persons})
 
 
 @login_required()
@@ -64,7 +62,9 @@ def person_new(request):
     form = PersonForm(request.POST or None, request.FILES or None)
 
     if form.is_valid():
-        form.save()
+        pessoa = form.save(commit=False)
+        pessoa.user = request.user
+        pessoa.save()
         return redirect('person_list')
         # return person_list(request)
 

@@ -1,6 +1,6 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
-
+from django.contrib.auth import get_user_model
 
 class Documento(models.Model):
     num_doc = models.CharField(max_length=50)
@@ -19,6 +19,7 @@ class Person(models.Model):
     photo = CloudinaryField("imagem")
     doc = models.OneToOneField(Documento, null=True, blank=True, on_delete=models.CASCADE)
     telefone = models.CharField(max_length=20, null=True, blank=True)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
 
     def __str__(self):
         return self.first_name + " " + self.last_name

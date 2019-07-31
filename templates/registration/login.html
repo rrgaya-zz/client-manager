@@ -6,20 +6,11 @@
     <h1>Login</h1>
     <form method="POST">
         {% csrf_token %}
-<!--        {{ form.as_p }}-->
         {{ form }}
     <button type="submit" class="btn btn-info">Login</button>
     <a href="{% url 'password_reset' %}"><span class="badge badge-dark">Esqueci minha senha</span></a>
-
     </form>
+    <br>
+    <p>Quer criar um conta? <a href="{% url 'signup' %}">Clique aqui</a></p>
 
-{% endblock %}
-
-
-{% block footer %}
-<footer class="footer">
-    <div class="container">
-        <span class="text-muted">Desenvolvido em Django 2.x por Ricardo Gaya</span>
-    </div>
-</footer>
 {% endblock %}
