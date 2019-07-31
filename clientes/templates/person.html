@@ -6,7 +6,7 @@
 {% block main %}
     <div class="row">
         <div class="col-12">
-            <form class="form-inline">
+            <form class="form-inline" method="GET" action="{% url 'search_person' %}">
                <div class="form-group mx-sm-3 mb-2">
                     <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome">
                     <input type="text" class="form-control" id="sobrenome" name="sobrenome" placeholder="Digite o sobrenome">
@@ -14,7 +14,6 @@
                 <button type="submit" class="btn btn-primary mb-2">Pesquisar</button>
             </form>
         </div>
-
     </div>
 
     <div class="row">

@@ -43,42 +43,38 @@ def send_email_to_managers(request):
 @login_required()
 def changeStatus(request, id):
     pessoa = get_object_or_404(Person, pk=id)
-
     if pessoa.user.username == "admin":
         pessoa.bio = "Alterado para test"
         pessoa.save()
     return redirect('person_list')
 
 
+def search(request):
+    nome = request.GET.get('nome', None)
+    sobrenome = request.GET.get('sobrenome', None)
+    if nome or sobrenome:
+        persons = Person.objects.filter(first_name__icontains=nome, last_name__icontains=sobrenome)
+        # TODO: persons = Person.objects.filter(first_name__icontains=nome) | Person.objects.filter(last_name__icontains=sobrenome)
+    else:
+        persons = Person.objects.all()
+    return render(request, 'person.html', {"persons": persons})
+
+
 @login_required()
 def person_list(request):
-    # nome = request.GET.get('nome', None)
-    # sobrenome = request.GET.get('sobrenome', None)
-    # if nome or sobrenome:
-    #     # persons = Person.objects.filter(first_name__icontains=nome, last_name__icontains=sobrenome)
-    #     persons = Person.objects.filter(first_name__icontains=nome) | Person.objects.filter(last_name__icontains=sobrenome)
-    # else:
-    #     persons = Person.objects.all()
     persons = Person.objects.all().filter(user=request.user)
     return render(request, 'person.html', {"persons": persons})
 
 
 @login_required()
 def person_new(request):
-    # TODO: Validar permissões
-    # if not request.user.has_perm('clientes.add_person'):
-    #     return HttpResponse("Nao autorizado")
-    # elif not request.user.is_superuser():
-    #     return HttpResponse("Não é superuser")
     form = PersonForm(request.POST or None, request.FILES or None)
-
     if form.is_valid():
         pessoa = form.save(commit=False)
         pessoa.user = request.user
         pessoa.save()
         return redirect('person_list')
         # return person_list(request)
-
     return render(request, 'person_form.html', {'form': form})
 
 
@@ -94,6 +90,10 @@ def person_update(request, id):
 
 @login_required()
 def person_delete(request, id):
+    if not request.user.has_perm('clientes.add_person'):
+        return HttpResponse("Não autorizado.")
+    elif not request.user.is_superuser:
+        return HttpResponse("Não é superuser.")
     person = Person.objects.get(pk=id)
     if request.method == 'POST':
         person.delete()

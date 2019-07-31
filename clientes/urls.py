@@ -16,6 +16,7 @@ from .views import clientes_upload
 from .views import PersonViewSet
 from .views import send_email_to_managers
 from .views import changeStatus
+from .views import search
 from .api import router
 
 urlpatterns = [
@@ -31,6 +32,7 @@ urlpatterns = [
     path('person_update/<int:pk>/', PersonUpdate.as_view(), name="person_update_cbv"),
     path('person_delete/<int:pk>/', PersonDelete.as_view(), name="person_delete_cbv"),
     path('person_bulk/', ProdutoBulk.as_view(), name="person_bulk"),
+    path('search/', search, name="search_person"),
     path('api/', api, name="api"),
     path('apicbv/', APICBV.as_view(), name="apicbv"),
     path('csv-download/', csv_download, name="csv_download"),
