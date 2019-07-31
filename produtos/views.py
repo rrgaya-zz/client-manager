@@ -4,6 +4,5 @@ from rest_framework import generics
 
 
 class ProdutoApi(generics.ListAPIView):
-
     queryset = Produto.objects.all()
     serializer_class = ProdutoSerializer

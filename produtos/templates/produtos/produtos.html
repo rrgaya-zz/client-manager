@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load bootstrap %}
+
+{% block title %} Produtos {% endblock %}
+
+{% block main %}
+    <h1>Produtos</h1>
+    {% for produto in produtos %}
+        <ul>
+            <li>{{ produto }}</li>
+        </ul>
+    {% endfor %}
+
+{% endblock %}
