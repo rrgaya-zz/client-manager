@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
+{% load bootstrap %}
+
 {% block title %} Seja bem vindo {% endblock %}
 
 {% block main %}
     <h3>Novo cliente</h3>
     <form method="POST", enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|bootstrap }}
     <button type="submit" class="btn btn-primary">Salvar</button>
     </form>
 {% endblock %}

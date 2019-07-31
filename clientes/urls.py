@@ -15,6 +15,7 @@ from .views import csv_download
 from .views import clientes_upload
 from .views import PersonViewSet
 from .views import send_email_to_managers
+from .views import changeStatus
 from .api import router
 
 urlpatterns = [
@@ -23,6 +24,7 @@ urlpatterns = [
     path('new/', person_new, name='person_new'),
     path('update/<int:id>/', person_update, name='person_update'),
     path('delete/<int:id>/', person_delete, name='person_delete'),
+    path('change-status/<int:id>/', changeStatus, name='changeStatus'),
     path('person_list/', PersonList.as_view(), name='person_list_cbv'),
     path('person_detail/<int:pk>/', PersonDetail.as_view(), name="person_detail_cbv"),
     path('person_create/', PersonCreate.as_view(), name="person_create_cbv"),

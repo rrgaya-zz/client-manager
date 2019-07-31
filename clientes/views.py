@@ -6,9 +6,10 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.checks import messages
-from django.core.mail import EmailMessage, send_mail
+from django.core.mail import send_mail
 from django.forms import model_to_dict
 from django.http import HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -36,6 +37,16 @@ def send_email_to_managers(request):
     email_from = settings.EMAIL_HOST_USER
     recipient_list = settings.MANAGERS
     send_mail(subject, message, email_from, recipient_list, fail_silently=False)
+    return redirect('person_list')
+
+
+@login_required()
+def changeStatus(request, id):
+    pessoa = get_object_or_404(Person, pk=id)
+
+    if pessoa.user.username == "admin":
+        pessoa.bio = "Alterado para test"
+        pessoa.save()
     return redirect('person_list')
 
 
