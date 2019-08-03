@@ -17,7 +17,6 @@ class Venda(models.Model):
         (ABERTA, 'Aberta'),
         (FECHADA, 'Fechada'),
         (PROCESSANDO, 'Processando'),
-        (DESCONHECIDO, 'Desconhecido'),
     )
 
     numero = models.CharField(max_length=5)
@@ -26,9 +25,15 @@ class Venda(models.Model):
     impostos = models.DecimalField(max_digits=50, decimal_places=2, default=0)
     pessoa = models.ForeignKey(Person, null=True, blank=True, on_delete=models.PROTECT)
     nfe_emitida = models.BooleanField(default=False)
-    status = models.CharField(choices=STATUS, default=DESCONHECIDO, max_length=2)
+    status = models.CharField(choices=STATUS, default=ABERTA, max_length=2)
+    venda_id = models.IntegerField(default=1)
 
     objects = VendaManager()
+
+    def save(self, *args, **kwargs):
+        self.venda_id = Venda.objects.count() + 1
+        super(Venda, self).save(*args, **kwargs)
+
 
     def __str__(self):
         return self.numero
