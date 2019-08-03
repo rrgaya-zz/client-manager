@@ -31,13 +31,14 @@ from .serializers import PersonSerializer
 
 logger = logging.getLogger("django")
 
+
 def send_email_to_managers(request):
-    subject = 'Thank you for registering to our site'
-    message = ' it  means a world to us '
+    subject = "Thank you for registering to our site"
+    message = " it  means a world to us "
     email_from = settings.EMAIL_HOST_USER
     recipient_list = settings.MANAGERS
     send_mail(subject, message, email_from, recipient_list, fail_silently=False)
-    return redirect('person_list')
+    return redirect("person_list")
 
 
 @login_required()
@@ -46,26 +47,27 @@ def changeStatus(request, id):
     if pessoa.user.username == "admin":
         pessoa.bio = "Alterado para test"
         pessoa.save()
-    return redirect('person_list')
+    return redirect("person_list")
 
 
 def search(request):
-    nome = request.GET.get('nome', None)
-    sobrenome = request.GET.get('sobrenome', None)
+    nome = request.GET.get("nome", None)
+    sobrenome = request.GET.get("sobrenome", None)
     if nome or sobrenome:
-        persons = Person.objects.filter(first_name__icontains=nome, last_name__icontains=sobrenome)
-        # TODO: persons = Person.objects.filter(first_name__icontains=nome) | Person.objects.filter(last_name__icontains=sobrenome)
+        persons = Person.objects.filter(
+            first_name__icontains=nome, last_name__icontains=sobrenome
+        )
     else:
         persons = Person.objects.all()
-    return render(request, 'person.html', {"persons": persons})
+    return render(request, "person.html", {"persons": persons})
 
 
 @login_required()
 def person_list(request):
     # TODO: Adicionar filtro por request.user - alterar também o modelo person
-    # persons = Person.objects.all().filter(user=request.user)
-    persons = Person.objects.all()
-    return render(request, 'person.html', {"persons": persons})
+    persons = Person.objects.all().filter(owner=request.user)
+    # persons = Person.objects.all()
+    return render(request, "person.html", {"persons": persons})
 
 
 @login_required()
@@ -75,9 +77,9 @@ def person_new(request):
         pessoa = form.save(commit=False)
         pessoa.user = request.user
         pessoa.save()
-        return redirect('person_list')
+        return redirect("person_list")
         # return person_list(request)
-    return render(request, 'person_form.html', {'form': form})
+    return render(request, "person_form.html", {"form": form})
 
 
 @login_required()
@@ -86,34 +88,35 @@ def person_update(request, id):
     form = PersonForm(request.POST or None, request.FILES or None, instance=person)
     if form.is_valid():
         form.save()
-        return redirect('person_list')
-    return render(request, 'person_form.html', {'form': form})
+        return redirect("person_list")
+    return render(request, "person_form.html", {"form": form})
 
 
 @login_required()
 def person_delete(request, id):
-    if not request.user.has_perm('clientes.add_person'):
+    if not request.user.has_perm("clientes.add_person"):
         return HttpResponse("Não autorizado.")
     elif not request.user.is_superuser:
         return HttpResponse("Não é superuser.")
     person = Person.objects.get(pk=id)
-    if request.method == 'POST':
+    if request.method == "POST":
         person.delete()
-        return redirect('person_list')
-    return render(request, 'person_delete_confirm.html', {'person': person})
+        return redirect("person_list")
+    return render(request, "person_delete_confirm.html", {"person": person})
 
 
 class PersonList(LoginRequiredMixin, ListView):
     model = Person
+
     def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
-        primeiro_acesso = self.request.session.get('prmeiro_acesso', False)
+        context = super().get_context_data(**kwargs)
+        primeiro_acesso = self.request.session.get("prmeiro_acesso", False)
         if not primeiro_acesso:
-            context['message'] = "Prmeiro acesso"
-            self.request.session['prmeiro_acesso'] = True
+            context["message"] = "Prmeiro acesso"
+            self.request.session["prmeiro_acesso"] = True
         else:
-            context['message'] = "Segundo acesso"
-        print(context['message']) # Apenas em development
+            context["message"] = "Segundo acesso"
+        print(context["message"])  # Apenas em development
         return context
 
 
@@ -121,41 +124,41 @@ class PersonDetail(LoginRequiredMixin, DetailView):
     model = Person
     """ Override to get_context_data
     """
+
     def get_object(self, queryset=None):
         pk = self.kwargs.get(self.pk_url_kwarg)
-        return Person.objects.select_related('doc').get(id=pk)
+        return Person.objects.select_related("doc").get(id=pk)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['now'] = timezone.now()
-        context['vendas'] = Venda.objects.filter(
-            pessoa_id=self.object.id
-        )
+        context["now"] = timezone.now()
+        context["vendas"] = Venda.objects.filter(pessoa_id=self.object.id)
         return context
 
 
 class PersonCreate(LoginRequiredMixin, CreateView):
     model = Person
-    fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo', 'doc']
-    success_url = reverse_lazy('person_list_cbv')
+    fields = ["first_name", "last_name", "age", "salary", "bio", "photo", "doc"]
+    success_url = reverse_lazy("person_list_cbv")
 
 
 class PersonUpdate(LoginRequiredMixin, UpdateView):
     model = Person
-    fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo', 'doc']
-    success_url = reverse_lazy('person_list_cbv')
+    fields = ["first_name", "last_name", "age", "salary", "bio", "photo", "doc"]
+    success_url = reverse_lazy("person_list_cbv")
 
 
 class PersonDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = ("clientes.deletar_clientes",)
     model = Person
+
     def get_success_url(self):
-        return reverse_lazy('person_list_cbv')
+        return reverse_lazy("person_list_cbv")
 
 
 class ProdutoBulk(View):
     def get(self, request):
-        produtos = ['notebook', 'mouse', 'teclado', 'monitor', 'HD', 'livros']
+        produtos = ["notebook", "mouse", "teclado", "monitor", "HD", "livros"]
         list_produtos = []
         for produto in produtos:
             p = Produto(descricao=produto, preco=10)
@@ -182,28 +185,26 @@ class APICBV(View):
 
 
 def csv_download(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = 'attachment; filename="somefilename.csv"'
     writer = csv.writer(response)
-    writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
-    writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+    writer.writerow(["First row", "Foo", "Bar", "Baz"])
+    writer.writerow(["Second row", "A", "B", "C", '"Testing"', "Here's a quote"])
     return response
 
 
 def clientes_upload(request):
     template_name = "clientes/upload.html"
-    prompt = {
-        'Ordem': 'first_name, last_name, age, salary, bio'
-    }
+    prompt = {"Ordem": "first_name, last_name, age, salary, bio"}
     if request.method == "GET":
         return render(request, template_name, prompt)
-    csv_file = request.FILES['file']
-    if not csv_file.name.endswith('.csv'):
-        messages.error(request, 'Esta file não é csv')
-    data_set = csv_file.read().decode('UTF-8')
+    csv_file = request.FILES["file"]
+    if not csv_file.name.endswith(".csv"):
+        messages.error(request, "Esta file não é csv")
+    data_set = csv_file.read().decode("UTF-8")
     io_string = io.StringIO(data_set)
     next(io_string)
-    for column in csv.reader(io_string, delimiter=',', quotechar='|'):
+    for column in csv.reader(io_string, delimiter=",", quotechar="|"):
         _, created = Person.objects.update_or_create(
             first_name=column[0],
             last_name=column[1],

@@ -8,11 +8,11 @@ class PersonAdmin(admin.ModelAdmin):
         ('Dados Pessoais', {'fields': ('first_name', 'last_name', 'telefone')}),
         ('Dados complementares', {
             'classes': ('collapse',),
-            'fields': ('age', 'salary', 'bio', 'photo', 'doc', 'user')})
+            'fields': ('age', 'salary', 'bio', 'photo', 'doc', 'owner')})
     )
     # fields = (('first_name', 'last_name'), ('age', 'salary'), 'bio', ('doc', 'photo'))
     # exclude = ('bio', )
-    list_display = ('first_name', 'last_name', 'age', 'salary', 'bio', 'tem_foto', 'doc', 'telefone')
+    list_display = ('first_name', 'last_name', 'age', 'salary', 'bio', 'tem_foto', 'doc', 'telefone', 'owner',)
     list_filter = ('age', 'salary', )
     search_fields = ['id', 'first_name', 'last_name', 'age',]
     autocomplete_fields = ["doc"]
