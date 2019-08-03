@@ -1,7 +1,7 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import User
-# from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
 
 
 class TimestampClass(models.Model):
@@ -31,7 +31,7 @@ class Person(models.Model):
         Documento, null=True, blank=True, on_delete=models.CASCADE
     )
     telefone = models.CharField(max_length=20, null=True, blank=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.first_name + " " + self.last_name
