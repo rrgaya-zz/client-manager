@@ -16,9 +16,9 @@ class VendaTestCase(TestCase):
         """Testando o VALOR TOTAL da VENDA"""
 
         ItemDoPedido.objects.create(
-            venda=self.venda, produto=self.produto, quantidade=10, desconto=10)
+            venda=self.venda, produto=self.produto, quantidade=10, desconto=0)
 
-        assert self.venda.valor == 14980
+        assert self.venda.valor == 14990
 
     def test_valor_desconto(self):
         """Testando o valor do DESCONTO"""

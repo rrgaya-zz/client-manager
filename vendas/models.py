@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import Sum, F, FloatField, Max
+from django.db.models import Sum, F, FloatField
 from clientes.models import Person
 from produtos.models import Produto
 from django.db.models.signals import post_save
@@ -73,8 +73,8 @@ class ItemDoPedido(models.Model):
             ('venda', 'produto'),
         )
 
-"""Usando Signals
-"""
+# Signals - Calculando total
+
 # @receiver(m2m_changed, sender=Venda.produtos.through)
 # def update_vendas_total(sender, instance, **kwargs):
 #     instance.valor = instance.calcular_total()
