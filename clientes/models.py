@@ -1,7 +1,5 @@
-from django.db import models
 from cloudinary.models import CloudinaryField
-from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
+from django.db import models
 
 
 class TimestampClass(models.Model):
@@ -18,9 +16,12 @@ class Documento(models.Model):
     def __str__(self):
         return self.num_doc
 
+    class Meta:
+        verbose_name = "Doc"
+        verbose_name_plural = "Doc"
+
 
 class Person(models.Model):
-
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     age = models.IntegerField()
@@ -31,7 +32,6 @@ class Person(models.Model):
         Documento, null=True, blank=True, on_delete=models.CASCADE
     )
     telefone = models.CharField(max_length=20, null=True, blank=True)
-    user = models.OneToOneField(User, on_delete=models.PROTECT)
 
     def __str__(self):
         return self.first_name + " " + self.last_name
@@ -41,8 +41,7 @@ class Person(models.Model):
         return self.first_name + " " + self.last_name
 
     class Meta:
-        verbose_name = "Pessoa"
-        verbose_name_plural = "Pessoas"
+        verbose_name = "Person"
+        verbose_name_plural = "Persons"
         permissions = (("deletar_clientes", "DELETAR CLIENTES"),)
-
         unique_together = (("first_name", "telefone"),)
