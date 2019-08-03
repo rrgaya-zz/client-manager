@@ -15,7 +15,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-DEFAULT_APPS = [
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -23,9 +23,7 @@ DEFAULT_APPS = [
     'django.contrib.messages',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-]
 
-THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -35,9 +33,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'bootstrapform',
     'cloudinary',
-]
 
-LOCAL_APPS = [
     'clientes',
     'home',
     'produtos',
@@ -45,8 +41,6 @@ LOCAL_APPS = [
     'api',
     'accounts',
 ]
-
-INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DEFAULT_APPS
 
 CLOUD_NAME_CLOUDINARY = config("CLOUD_NAME_CLOUDINARY")
 API_KEY_CLOUDINARY = config("API_KEY_CLOUDINARY")
