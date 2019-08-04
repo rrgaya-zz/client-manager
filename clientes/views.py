@@ -75,8 +75,7 @@ def person_new(request):
         pessoa = form.save(commit=False)
         pessoa.user = request.user
         pessoa.save()
-        return redirect("person_list")
-        # return person_list(request)
+        return redirect("person_list") # return person_list(request)
     return render(request, "person_form.html", {"form": form})
 
 
