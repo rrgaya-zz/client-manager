@@ -17,6 +17,7 @@ from .views import PersonViewSet
 from .views import send_email_to_managers
 from .views import changeStatus
 from .views import search
+from .views import dash
 from .api import router
 
 urlpatterns = [
@@ -39,4 +40,6 @@ urlpatterns = [
     path('upload/', clientes_upload, name="clientes_upload"),
     path('api-clientes/', PersonViewSet, name='api_clientes'),
     path("email/", send_email_to_managers),
+    path("dash/", dash),
+
 ]

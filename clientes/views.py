@@ -222,3 +222,7 @@ class PersonViewAPI(APIView):
     def get(self, request):
         person = Person.objects.all()
         return Response({"pessoas": person})
+
+
+def dash(request):
+    return render(request, "includes/dash.html")
