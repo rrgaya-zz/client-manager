@@ -5,7 +5,7 @@ class PersonForm(ModelForm):
 
     class Meta:
         model = Person
-        fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo', 'user']
+        fields = ['first_name', 'last_name', 'age', 'salary', 'bio', 'photo']
 
     # def __init__(self, *args, **kwargs):
     #     super().__init__(*args, **kwargs)
