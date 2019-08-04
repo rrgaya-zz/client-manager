@@ -7,31 +7,33 @@ Este é simples projeto.
 
 ## Executando o projeto localmente
 
-First, clone the repository to your local machine:
+Primeiro, clone este repositório em sua máquina local:
 
 ```bash
-git clone https://github.com/sibtc/django-multiple-user-types-example.git
+#SSH
+git@github.com:rrgaya/gestao-clientes-django.git
+
+# HTTP 
+https://github.com/rrgaya/gestao-clientes-django.git
 ```
 
-Install the requirements:
+Instale os requirements:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Create the database:
+Crie o banco de dados:
 
 ```bash
 python manage.py migrate
 ```
 
-Finally, run the development server:
+Finalmente, crie rode o projeto local:
 
 ```bash
 python manage.py runserver
 ```
-
-The project will be available at **127.0.0.1:8000**.
 
 ## Licence
 
