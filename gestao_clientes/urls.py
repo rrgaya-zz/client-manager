@@ -13,7 +13,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls'), name="api_urls"),
     path('accounts/', include('allauth.urls')),
-    path('clientes/', include("clientes.urls"), name='url_clientes'),
+    path('clientes/', include("clientes.urls", namespace="clientes")),
     path('produtos/', include("produtos.urls"), name='produtos_urls'),
     path('vendas/', include(vendas_urls), name='vendas_urls'),
     path('login/', auth_views.LoginView.as_view(), name='login'),

@@ -20,6 +20,8 @@ from .views import search
 from .views import dash
 from .api import router
 
+app_name = "clientes"
+
 urlpatterns = [
     path('', include(router.urls)),
     path('list/', person_list, name='person_list'),
@@ -40,6 +42,6 @@ urlpatterns = [
     path('upload/', clientes_upload, name="clientes_upload"),
     path('api-clientes/', PersonViewSet, name='api_clientes'),
     path("email/", send_email_to_managers),
-    path("dash/", dash),
+    path("dash/", dash, name="dash"),
 
 ]

@@ -65,7 +65,7 @@ def search(request):
 @login_required()
 def person_list(request):
     persons = Person.objects.all().filter(user=request.user)
-    return render(request, "person.html", {"persons": persons})
+    return render(request, "clientes.html", {"persons": persons})
 
 
 @login_required()
