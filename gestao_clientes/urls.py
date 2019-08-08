@@ -9,7 +9,7 @@ from django.contrib.auth import urls as url_auth
 
 
 urlpatterns = [
-    path('', include(home_urls), name='home'),
+    path('', include("clientes.urls"), name='home'),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls'), name="api_urls"),
     path('accounts/', include('allauth.urls')),

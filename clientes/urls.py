@@ -18,6 +18,7 @@ from .views import send_email_to_managers
 from .views import changeStatus
 from .views import search
 from .views import dash
+from .views import criar_novo_cliente
 from .api import router
 
 app_name = "clientes"
@@ -43,5 +44,6 @@ urlpatterns = [
     path('api-clientes/', PersonViewSet, name='api_clientes'),
     path("email/", send_email_to_managers),
     path("dash/", dash, name="dash"),
+    path("lista/", criar_novo_cliente, name="novo_cliente"),
 
 ]

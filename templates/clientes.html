@@ -7,7 +7,7 @@
 
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">Clientes</h1>
-<p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p>
+<p class="mb-4">Listagem de clientes cadastrados no sistema.</p>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -24,7 +24,7 @@
                 <th>Nome</th>
                 <th>Idade</th>
                 <th>Salario</th>
-                <th>Foto</th>
+                <th>Biografia</th>
                 <th>Documento</th>
                 <th>Owner</th>
                 <th>Ações</th>
@@ -36,7 +36,7 @@
                 <th>Nome</th>
                 <th>Idade</th>
                 <th>Salario</th>
-                <th>Foto</th>
+                <th>Biografia</th>
                 <th>Documento</th>
                 <th>Owner</th>
                 <th>Ações</th>
@@ -48,7 +48,7 @@
                 <td>{{ person.nome_completo }}</td>
                 <td>{{ person.age }}</td>
                 <td>{{ person.salary }}</td>
-                <td>{{ person.photo }}</td>
+                <td>{{ person.bio }}</td>
                 <td>{{ person.doc }}</td>
                 <td>{{ person.user }}</td>
                 <td>
@@ -56,7 +56,7 @@
                     <a href="#" class="btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i></a>
                     <a href="#" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>
                 </td>
-                </tr>                 
+                </tr>
             {% endfor %}
             </tbody>
             </table>
@@ -78,9 +78,6 @@
 
 </div>
 <!-- End of Main Content -->
-
-      
-
 
 {% endblock content %}
 

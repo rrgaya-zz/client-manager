@@ -79,6 +79,17 @@ def person_new(request):
     return render(request, "person_form.html", {"form": form})
 
 
+
+@login_required()
+def criar_novo_cliente(request):
+    form = PersonForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        pessoa = form.save(commit=False)
+        pessoa.user = request.user
+        pessoa.save()
+        return redirect("person_list") # return person_list(request)
+    return render(request, "clientes-2.html", {"form": form})
+
 @login_required()
 def person_update(request, id):
     person = Person.objects.get(pk=id)
