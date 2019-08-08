@@ -1,0 +1,92 @@
+{% extends "includes/base.html" %}
+{% load static %}
+{% load bootstrap %}
+{% block content %}
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Clientes</h1>
+<!--<p class="mb-4">Listagem de clientes cadastrados no sistema.</p>-->
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Adicionar novo cliente na base</h6>
+        </div>
+
+        
+        <div class="card-body">
+        <div class="table-responsive">
+            <table method="POST">
+                {{ form|bootstrap }}
+                <button type="submit" class="btn btn-success btn-icon-split">
+                <span class="icon text-white-50">
+                    <i class="fas fa-check"></i>
+                </span>
+                <span class="text">Adcicionar novo cliente.</span>
+                </button>
+            </table>
+<!--            <table class="table table-bordered" width="100%" cellspacing="0">-->
+<!--            <thead>-->
+<!--                <tr>-->
+<!--                <th>Nome</th>-->
+<!--                <th>Idade</th>-->
+<!--                <th>Salario</th>-->
+<!--                <th>Biografia</th>-->
+<!--                <th>Documento</th>-->
+<!--                <th>Owner</th>-->
+<!--                <th>Ações</th>-->
+<!--                </tr>-->
+<!--            </thead>-->
+<!--            <tfoot>-->
+<!--                <tr>-->
+<!--                <th>Nome</th>-->
+<!--                <th>Idade</th>-->
+<!--                <th>Salario</th>-->
+<!--                <th>Biografia</th>-->
+<!--                <th>Documento</th>-->
+<!--                <th>Owner</th>-->
+<!--                <th>Ações</th>-->
+<!--                </tr>-->
+<!--            </tfoot>-->
+<!--            <tbody>-->
+<!--            {% for person in persons  %}-->
+<!--                <tr>-->
+<!--                <td>{{ person.nome_completo }}</td>-->
+<!--                <td>{{ person.age }}</td>-->
+<!--                <td>{{ person.salary }}</td>-->
+<!--                <td>{{ person.bio }}</td>-->
+<!--                <td>{{ person.doc }}</td>-->
+<!--                <td>{{ person.user }}</td>-->
+<!--                <td>-->
+<!--                    <a href="{% url 'clientes:person_new' %}" class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i></a>-->
+<!--                    <a href="#" class="btn btn-info btn-circle btn-sm"><i class="fas fa-info-circle"></i></a>-->
+<!--                    <a href="#" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></a>-->
+<!--                </td>-->
+<!--                </tr>                 -->
+<!--            {% endfor %}-->
+<!--            </tbody>-->
+<!--            </table>-->
+        </div>
+        </div>
+    </div>
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+{% endblock content %}
+
+
+{% block extra-js %}
+
+<!-- Page level custom scripts -->
+<script src="{% static 'js/demo/datatables-demo.js' %}"></script>
+
+<!-- Page level plugins -->
+<script src="{% static 'vendor/datatables/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'vendor/datatables/dataTables.bootstrap4.min.js' %}"></script>
+
+{% endblock extra-js %}

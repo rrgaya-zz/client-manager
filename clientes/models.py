@@ -23,7 +23,9 @@ class Documento(models.Model):
 
 
 class Person(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE
+    )
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     age = models.IntegerField()

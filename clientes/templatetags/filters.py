@@ -2,9 +2,10 @@ from django import template
 
 register = template.Library()
 
+
 @register.filter
 def meu_filtro(data):
-    return data + " - " + 'Alterado pelo filtro'
+    return data + " - " + "Alterado pelo filtro"
 
 
 @register.filter
