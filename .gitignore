@@ -10,3 +10,4 @@ CONFIG_HEROKU.md
 heroku
 debug.log
 staticfiles
+docker-config.md
