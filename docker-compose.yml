@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres:10.3-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dj_gestao_db
+    volumes:
+        - /tmp/docker/postgresql:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+    networks:
+      - gestao
+
+  pgadmin:
+    image: thajeztah/pgadmin4
+    depends_on:
+      - db
+    ports:
+      - "5050:5050"
+    networks:
+      - gestao
+
+networks:
+  gestao:
+    driver: bridge
