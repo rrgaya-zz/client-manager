@@ -13,7 +13,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - gestao
+      - gestaont
 
   pgadmin:
     image: thajeztah/pgadmin4
@@ -22,8 +22,8 @@ services:
     ports:
       - "5050:5050"
     networks:
-      - gestao
+      - gestaont
 
 networks:
-  gestao:
+  gestaont:
     driver: bridge
