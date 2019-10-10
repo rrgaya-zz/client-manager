@@ -11,3 +11,4 @@ heroku
 debug.log
 staticfiles
 docker-config.md
+*/migrations/*
